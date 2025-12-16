@@ -1,6 +1,10 @@
 ﻿Imports System.Runtime.InteropServices
 
 Module Helper
+    Enum MathOperation
+        Plus
+        Multiplty
+    End Enum
     Public Function SplitLines(input As String) As String()
         Return input.Split(New String() {vbCrLf, vbLf, vbCr}, StringSplitOptions.None)
     End Function
