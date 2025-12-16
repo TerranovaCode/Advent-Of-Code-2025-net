@@ -27,10 +27,10 @@ Class Day02
 		Dim pID As String = If(ID.ToString(), String.Empty)
 		Dim len As Integer = pID.Length
 		If len = 0 OrElse (len Mod 2) <> 0 Then
-			Return False  ' must be even length
+			Return False ' must be even length
 		End If
 
-		Dim mid As Integer = len \ 2  ' integer division
+		Dim mid As Integer = len \ 2 ' integer division
 		Dim firstHalf As String = pID.Substring(0, mid)
 		Dim secondHalf As String = pID.Substring(mid)
 

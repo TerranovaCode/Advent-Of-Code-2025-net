@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.InteropServices
+﻿Imports System.Collections.Concurrent
+Imports System.Runtime.InteropServices
 
 Module Helper
     Enum MathOperation
@@ -10,6 +11,36 @@ Module Helper
     End Function
     Public Function SplitStringWithDLim(input As String, Delim As String)
         Return input.Split(Delim)
+    End Function
+    Friend Function CSV_StringTo2DArray(CSV As String, delim As String) As String(,)
+        Dim StrRows = SplitLines(CSV)
+        Dim Rows = StrRows.Count
+        Dim StrCols As New List(Of String())
+        Dim MaxCol = 0
+        For Each pRow As String In StrRows
+            Dim pCols = pRow.Split(",")
+            If pCols.Count > MaxCol Then MaxCol = pCols.Count
+            StrCols.Add(pCols)
+        Next
+
+
+        Dim grid(Rows, MaxCol - 1) As String
+        Dim pad = " "
+        ' Initialize with pad character
+        For r As Integer = 0 To Rows - 1
+            For c As Integer = 0 To MaxCol - 1
+                grid(r, c) = pad
+            Next
+        Next
+
+        ' Fill with actual characters
+        For r As Integer = 0 To Rows - 1
+            Dim currentRow = StrCols(r)
+            For c As Integer = 0 To MaxCol - 1
+                grid(r, c) = currentRow.GetValue(c)
+            Next
+        Next
+        Return grid
     End Function
     Public Function CountCharacter(ByVal value As String, ByVal ch As Char) As Integer
         Dim cnt As Integer = 0
