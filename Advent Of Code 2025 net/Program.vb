@@ -9,55 +9,57 @@ Imports AdventOfCode.Core
 
 
 Module Program
- Sub Main(args As String())
- Dim day As Integer = ParseDay(args)
+    Sub Main(args As String())
+        Do While 1 = 1
+            Dim day As Integer = ParseDay(args)
 
- If day = -1 Then
- Console.Write("Enter Advent of Code day (1-25): ")
- Dim s = Console.ReadLine()
- If Not Integer.TryParse(s, day) Then
- Console.WriteLine("Invalid day.")
- Return
- End If
- End If
+            If day = -1 Then
+                Console.Write("Enter Advent of Code day (1-25): ")
+                Dim s = Console.ReadLine()
+                If Not Integer.TryParse(s, day) Then
+                    Console.WriteLine("Invalid day.")
+                    Return
+                End If
+            End If
 
- If day < 1 OrElse day > 25 Then
- Console.WriteLine("Day must be between 1 and 25.")
- Return
- End If
+            If day < 1 OrElse day > 25 Then
+                Console.WriteLine("Day must be between 1 and 25.")
+                Return
+            End If
 
- Dim paths = New Paths()
- Dim inputPath = paths.GetInputPath(day)
+            Dim paths = New Paths()
+            Dim inputPath = paths.GetInputPath(day)
 
- If Not File.Exists(inputPath) Then
- Console.WriteLine("Input file not found: " & inputPath)
- Console.WriteLine("Place your file at Inputs\day" & day.ToString("00") & ".txt")
- Return
- End If
+            If Not File.Exists(inputPath) Then
+                Console.WriteLine("Input file not found: " & inputPath)
+                Console.WriteLine("Place your file at Inputs\day" & day.ToString("00") & ".txt")
+                Return
+            End If
 
- Dim raw = File.ReadAllText(inputPath)
- Console.WriteLine("Running Day " & day & "...")
+            Dim raw = File.ReadAllText(inputPath)
+            Console.WriteLine("Running Day " & day & "...")
 
- Dim part1 As String = RunPart(day, 1, raw)
- Console.WriteLine("Part 1: " & part1)
+            Dim part1 As String = RunPart(day, 1, raw)
+            Console.WriteLine("Part 1: " & part1)
 
- Dim part2 As String = RunPart(day, 2, raw)
- Console.WriteLine("Part 2: " & part2)
+            Dim part2 As String = RunPart(day, 2, raw)
+            Console.WriteLine("Part 2: " & part2)
 
- ' Write outputs
- Dim out1 = paths.GetOutputPath(day, 1)
- Dim out2 = paths.GetOutputPath(day, 2)
- Directory.CreateDirectory(Path.GetDirectoryName(out1))
- Directory.CreateDirectory(Path.GetDirectoryName(out2))
- File.WriteAllText(out1, If(part1, ""))
- File.WriteAllText(out2, If(part2, ""))
+            ' Write outputs
+            Dim out1 = paths.GetOutputPath(day, 1)
+            Dim out2 = paths.GetOutputPath(day, 2)
+            Directory.CreateDirectory(Path.GetDirectoryName(out1))
+            Directory.CreateDirectory(Path.GetDirectoryName(out2))
+            File.WriteAllText(out1, If(part1, ""))
+            File.WriteAllText(out2, If(part2, ""))
 
- Console.WriteLine("Outputs written:")
- Console.WriteLine(" - " & out1)
- Console.WriteLine(" - " & out2)
- End Sub
+            Console.WriteLine("Outputs written:")
+            Console.WriteLine(" - " & out1)
+            Console.WriteLine(" - " & out2)
+        Loop
+    End Sub
 
- Private Function ParseDay(args As String()) As Integer
+    Private Function ParseDay(args As String()) As Integer
  If args Is Nothing OrElse args.Length = 0 Then Return -1
 
  For i = 0 To args.Length - 1
@@ -118,15 +120,45 @@ Module Program
  End If
  Case 7
  Dim Day07 As New Day07(input)
- If part = 1 Then
-  Return Day07.Output1
- Else Return Day07.Output2
- End If
- ' Add more days by copying the pattern:
- 'Case 2
- ' If part = 1 Then Return Day02_Part1(input) Else Return Day02_Part2(input)
+                If part = 1 Then
+                    Return Day07.Output1
+                Else Return Day07.Output2
+                End If
+            Case 8
+                Dim Day08 As New Day08(input)
+                If part = 1 Then
+                    Return Day08.Output1
+                Else Return Day08.Output2
+                End If
+            Case 9
+                Dim Day09 As New Day09(input)
+                If part = 1 Then
+                    Return Day09.Output1
+                Else Return Day09.Output2
+                End If
+            'Case 10
+            '    Dim Day10 As New day10(input)
+            '    If part = 1 Then
+            '        Return Day10.Output1
+            '    Else Return Day10.Output2
+            '    End If
+            Case 11
+                Dim Day11 As New day11(input)
+                If part = 1 Then
+                    Return Day11.Output1
+                Else Return Day11.Output2
+                End If
+                'Case 12
+                '    Dim Day12 As New Day12(input)
+                '    If part = 1 Then
+                '        Return Day12.Output1
+                '    Else Return Day12.Output2
+                '    End If
+                ' Add more days by copying the pattern:
+                'Case 2
+                ' If part = 1 Then Return Day02_Part1(input) Else Return Day02_Part2(input)
 
- Case Else
+            Case Else
  Return "Not implemented"
  End Select
  End Function

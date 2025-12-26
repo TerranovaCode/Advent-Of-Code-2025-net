@@ -1,18 +1,15 @@
-﻿Imports System.Collections.Concurrent
+﻿Imports System.Numerics
+Imports System.Collections.Concurrent
 Imports System.Runtime.InteropServices
 
 Module Helper
-    Enum MathOperation
-        Plus
-        Multiplty
-    End Enum
     Public Function SplitLines(input As String) As String()
         Return input.Split(New String() {vbCrLf, vbLf, vbCr}, StringSplitOptions.None)
     End Function
     Public Function SplitStringWithDLim(input As String, Delim As String)
         Return input.Split(Delim)
     End Function
-    Friend Function CSV_StringTo2DArray(CSV As String, delim As String) As String(,)
+    Friend Function CSV_StringTo2DArray(CSV As String, delim As String, Optional BlankFill As String = Nothing) As String(,)
         Dim StrRows = SplitLines(CSV)
         Dim Rows = StrRows.Count
         Dim StrCols As New List(Of String())
@@ -37,7 +34,11 @@ Module Helper
         For r As Integer = 0 To Rows - 1
             Dim currentRow = StrCols(r)
             For c As Integer = 0 To MaxCol - 1
-                grid(r, c) = currentRow.GetValue(c)
+                If c > currentRow.GetUpperBound(0) Then
+                    grid(r, c) = BlankFill
+                Else
+                    grid(r, c) = currentRow.GetValue(c)
+                End If
             Next
         Next
         Return grid
@@ -51,6 +52,15 @@ Module Helper
         Next
         Return cnt
     End Function
+    Friend Function BigIntMax(int1 As BigInteger, Int2 As BigInteger)
+        If int1 > Int2 Then Return int1
+        Return Int2
+    End Function
+    Friend Function BigIntMin(int1 As BigInteger, Int2 As BigInteger)
+        If int1 < Int2 Then Return int1
+        Return Int2
+    End Function
+
     Public Function StringToRectangularCharArray(ByVal input As String, Optional ByVal pad As Char = " "c) As Char(,)
         ' Normalize line endings: handle CRLF and CR
         Dim normalized As String = input.Replace(vbCrLf, vbLf).Replace(vbCr, vbLf)
@@ -86,6 +96,7 @@ Module Helper
 
         Return grid
     End Function
+
     ''' <summary>
     ''' Gets how many adjecnt squares in a grid match a value 
     ''' </summary>
